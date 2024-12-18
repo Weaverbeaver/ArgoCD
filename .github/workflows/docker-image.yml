@@ -16,6 +16,7 @@ jobs:
     - uses: actions/checkout@v4
     - name: Build the Docker image
       run: |
-        docker build . --file Dockerfile --tag weaverbeaver/argocd-nginx:$(date +%s)
+        docker image ls
+        docker build -t argocd-nginx
         docker push weaverbeaver/argocd-nginx:$(date +%s)
 
