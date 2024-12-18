@@ -17,6 +17,6 @@ jobs:
     - name: Build the Docker image
       run: |
         docker image ls
-        docker build -t argocd-nginx .
-        docker image push --all-tags weaverbeaver/argocd-nginx
+        docker build -t weaverbeaver/argocd-nginx:latest .
+        docker image push --all-tags weaverbeaver/argocd-nginx:latest
 
