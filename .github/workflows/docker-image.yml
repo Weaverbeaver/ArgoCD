@@ -22,9 +22,7 @@ jobs:
     
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: |
-        docker image ls
-        
+      run: |        
         docker build weaverbeaver/argocd-nginx .
         docker image push weaverbeaver/argocd-nginx
 
