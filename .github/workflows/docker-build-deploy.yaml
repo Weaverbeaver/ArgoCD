@@ -1,0 +1,47 @@
+name: Build and Deploy Docker Image
+
+on:
+  push:
+    branches:
+      - main  # Trigger workflow on pushes to the main branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Log in to Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Build Docker image
+      - name: Build Docker image
+        run: |
+          docker build -t your-dockerhub-username/custom-nginx:latest ./docker
+
+      # Push Docker image to Docker Hub
+      - name: Push Docker image
+        run: |
+          docker push your-dockerhub-username/custom-nginx:latest
+
+      # Update Kubernetes deployment
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.27.3'  # Replace with your Kubernetes version
+
+      - name: Configure kubeconfig
+        run: |
+          echo "${{ secrets.KUBE_CONFIG }}" > kubeconfig.yaml
+          export KUBECONFIG=kubeconfig.yaml
+
+      - name: Update Kubernetes deployment
+        run: |
+          kubectl set image deployment/nginx-deployment nginx=your-dockerhub-username/custom-nginx:latest
