@@ -1,1 +1,5 @@
 dockertoken.txt
+*.tgz
+.helmignore
+values.yaml
+chart.lock
