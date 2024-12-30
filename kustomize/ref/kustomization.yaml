@@ -1,0 +1,4 @@
+resources:
+- ../base
+namePrefix: ref-
+namespace: ref-kustomize
